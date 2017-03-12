@@ -65,11 +65,11 @@ events: #Maps from subscribing topic to signal ids
     trigger: True
 
   lost_lane: # not tested
-    topic: "lane_filter_node/in_lane"
+    topic: "line_detector_node/have_lines"
     msg_type: "BoolStamped"
     trigger: False
   found_lane: # note tested
-    topic: "lane_filter_node/in_lane"
+    topic: "line_detector_node/have_lines"
     msg_type: "BoolStamped"
     trigger: True
 #  lane_recovery_timeout_reached: #not currently implemented
@@ -89,7 +89,7 @@ global_transitions:
 # Define nodes 
 nodes:
   decoder_node: "decoder_node/switch"
-# anti_instagram_node: "anti_instagram/switch"
+#  anti_instagram_node: "anti_instagram/switch"
   apriltag_node: "apriltag_detector_node/switch"
   vehicle_detector_node: "vehicle_detection_node/switch"
   led_detector_node: "LED_detector_node/switch"
@@ -124,10 +124,9 @@ states:
       - line_detector_node
     lights: ["lane_following"]
 
-  LANE_RECOVERY: # not implemented
+  LANE_RECOVERY: 
     transitions:
       found_lane: "LANE_FOLLOWING"
-      lane_recovery_timeout_reached: "JOYSTICK_CONTROL"
       joystick_override_off: "JOYSTICK_CONTROL"
     active_nodes:
       - lane_filter_node
